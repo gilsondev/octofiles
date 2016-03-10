@@ -1,9 +1,21 @@
 language: python
+addons:
+  postgresql: "9.4"
+
+  services:
+    - postgresql
+
+before_script:
+  - psql -c 'create database octofiles;' -U postgres
+
 python:
-  - "3.5"
   - "3.4"
   - "3.3"
   - "2.7"
   - "pypy"
 install: pip install -r requirements/test.txt
+
 script:  python manage.py test
+
+env:
+  - TEST_DATABASE_URL="postgres+psycopg2://postgres@localhost/octofiles"
