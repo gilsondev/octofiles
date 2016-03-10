@@ -18,4 +18,4 @@ install: pip install -r requirements/test.txt
 script:  python manage.py test
 
 env:
-  - TEST_DATABASE_URL="postgres+psycopg2://postgres@localhost/octofiles"
+  - TEST_DATABASE_URL="postgres://postgres@localhost/octofiles"
