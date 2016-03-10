@@ -1,6 +1,7 @@
 # Octofiles
 
 [![Build Status](https://travis-ci.org/hackultura/octofiles.png?branch=master)](https://travis-ci.org/hackultura/octofiles)
+[![Documentation Status](https://readthedocs.org/projects/octofiles/badge/?version=latest)](http://octofiles.readthedocs.org/en/latest/?badge=latest)
 
 Serviço de armazenamento de documentos dos entes artísticos, acessado pela plataforma SISCULT.
 
