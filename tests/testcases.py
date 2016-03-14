@@ -5,12 +5,14 @@ from api import create_api
 from api.models import db
 
 
-class OctofilesTestCase(unittest.TestCase):
+class BaseTestCase(unittest.TestCase):
     def setUp(self):
         self.api = create_api('testing')
         self.api_context = self.api.app_context()
         self.api_context.push()
+
         db.create_all()
+        self.db = db
 
     def tearDown(self):
         db.session.remove()
