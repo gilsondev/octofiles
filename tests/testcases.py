@@ -15,8 +15,8 @@ class BaseTestCase(unittest.TestCase):
         self.db = db
 
     def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+        self.db.session.remove()
+        self.db.drop_all()
         self.api_context.pop()
 
     def test_api_exists(self):
@@ -24,3 +24,12 @@ class BaseTestCase(unittest.TestCase):
 
     def test_api_is_testing(self):
         return self.assertTrue(current_app.config['TESTING'])
+
+
+class ClientTestCase(BaseTestCase):
+    use_cookies = False
+
+    def setUp(self):
+        super(ClientTestCase, self).setUp()
+        self.api.config['WTF_CSRF_ENABLED'] = False
+        self.client = self.api.test_client(self.use_cookies)

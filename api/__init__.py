@@ -19,8 +19,8 @@ def create_api(config_name=None):
     db.init_app(api)
     bootstrap.init_app(api)
 
-    # from api.admin.auth import auth as auth_blueprint
-    # api.register_blueprint(auth_blueprint, url_prefix='/admin/auth')
+    from api.admin.auth import admin_auth as admin_auth_blueprint
+    api.register_blueprint(admin_auth_blueprint, url_prefix='/admin/auth')
 
     # from api.v1.oauth import oauth as oauth_blueprint
     # api.register_blueprint(oauth_blueprint,
