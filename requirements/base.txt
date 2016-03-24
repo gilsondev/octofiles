@@ -14,3 +14,4 @@ pytz==2016.1
 raven==5.11.1
 six==1.10.0
 django-oauth-toolkit==0.10.0
+django-extensions==1.6.1

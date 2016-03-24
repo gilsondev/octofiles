@@ -36,9 +36,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'raven.contrib.django.raven_compat',
-
     'oauth2_provider',
     'rest_framework',
+    'django_extensions',
 
     'octofiles.core',
     'octofiles.authentication',
@@ -136,6 +136,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+AUTH_USER_MODEL = 'authentication.User'
+
 ALLOWED_FILES = [
     'application/pdf',
     'application/msword',
@@ -216,7 +218,7 @@ REST_FRAMEWORK = {
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'oauth2_provider.ext.rest_framework.TokenHasReadWriteScope',
     ),
     'DATE_FORMAT': "%d/%m/%Y",
     'DATE_INPUT_FORMATS': ["%d/%m/%Y", "%d/%m/%y"],
