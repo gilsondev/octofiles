@@ -40,7 +40,13 @@ INSTALLED_APPS = (
     'rest_framework',
 
     'octofiles.core',
+    'octofiles.authentication',
 )
+
+if settings.DEBUG:
+    INSTALLED_APPS += (
+        'test_without_migrations',
+    )
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
