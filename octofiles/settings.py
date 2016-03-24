@@ -37,6 +37,7 @@ INSTALLED_APPS = (
 
     'raven.contrib.django.raven_compat',
 
+    'oauth2_provider',
     'rest_framework',
 
     'octofiles.core',
@@ -89,7 +90,7 @@ WSGI_APPLICATION = 'octofiles.wsgi.application'
 # https://pypi.python.org/pypi/dj-database-url
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://procult:123456@localhost/procult'
+        default='postgres://octofiles:123456@localhost/octofiles'
     )
 }
 
@@ -211,9 +212,25 @@ ALLOWED_FILES = [
 
 # Django Rest Framework
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DATE_FORMAT': "%d/%m/%Y",
     'DATE_INPUT_FORMATS': ["%d/%m/%Y", "%d/%m/%y"],
     'PAGE_SIZE': 100
+}
+
+# Django OAuth Toolkit
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {
+        'read': 'Read files',
+        'write': 'Write files',
+        'remove': 'Remove files'
+    }
 }
 
 # Local configuration
@@ -242,9 +259,10 @@ if settings.DEBUG:
         'octofiles.local:5000',
         '0.0.0.0:5000',
     )
+
 RAVEN_CONFIG = {
-        'dsn': os.getenv('RAVEN_DSN_URL'),
-        # If you are using git, you can also automatically configure the
-        # release based on the git info.
-        'release': raven.fetch_git_sha(BASE_DIR),
+    'dsn': os.getenv('RAVEN_DSN_URL'),
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': raven.fetch_git_sha(BASE_DIR),
 }
