@@ -3,18 +3,17 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from oauth2_provider.models import Application
 from model_mommy import mommy
+from rest_framework.test import APITestCase
 from octofiles.authentication.models import User
 
 GRANT_TYPE_DEFAULT = 'client_credentials'
 
 
-class BaseTestCase(TestCase):
+class BaseTestCaseMixin(object):
     """
     Classe que prepara o ambiente de testes para efetuar
     a autenticação e recuperação do token de acesso.
     """
-    before_authenticate = False
-
     @classmethod
     def setUpClass(cls):
         user = mommy.make(User)
@@ -24,11 +23,7 @@ class BaseTestCase(TestCase):
             redirect_uris="",
             authorization_grant_type=Application.GRANT_CLIENT_CREDENTIALS
         )
-        super(BaseTestCase, cls).setUpClass()
-
-    def setUp(self):
-        if self.before_authenticate:
-            self.authenticate()
+        super(BaseTestCaseMixin, cls).setUpClass()
 
     def authenticate(self, **kwargs):
         data = {
@@ -50,4 +45,17 @@ class BaseTestCase(TestCase):
 
     @property
     def access_token(self):
-        return self.resp.json['access_token']
+        return self.resp.json()['access_token']
+
+
+class BaseTestCase(BaseTestCaseMixin, TestCase):
+    pass
+
+
+class APIBaseTestCase(BaseTestCaseMixin, APITestCase):
+
+    def authenticate(self, **kwargs):
+        super(APIBaseTestCase, self).authenticate(**kwargs)
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer ' + self.access_token
+        )

@@ -44,11 +44,6 @@ INSTALLED_APPS = (
     'octofiles.authentication',
 )
 
-if settings.DEBUG:
-    INSTALLED_APPS += (
-        'test_without_migrations',
-    )
-
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -239,6 +234,7 @@ OAUTH2_PROVIDER = {
 if settings.DEBUG:
     INSTALLED_APPS += (
         'corsheaders',
+        'test_without_migrations',
     )
 
     MIDDLEWARE_CLASSES = (

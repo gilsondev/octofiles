@@ -17,17 +17,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from rest_framework import routers
-from octofiles.authentication.views import UserViewSet
 
-
-# Routers provide an easy way of automatically determining the URL conf
-router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^oauth/', include('oauth2_provider.urls',
-                            namespace='oauth2_provider')),
+    url(r'^oauth/',
+        include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^api/v1/(?P<slug>[\w-]+)/documents',
+        include('octofiles.core.urls', namespace='api_documents')),
     url(r'^admin/', admin.site.urls),
 ]
